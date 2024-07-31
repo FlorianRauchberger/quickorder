@@ -1,0 +1,32 @@
+<form id="quickorder-form" action="<?php echo $block->getUrl('quickorder/index') ?>" method="post">
+    <input type="text" name="sku" placeholder="Enter SKU">
+    <button type="submit">Quick Order</button>
+</form>
+
+<script>
+    require([
+        'jquery'
+    ], function($, customerData) {
+        $('#quickorder-form').submit(function(event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: 'post',
+                dataType: 'json',
+                data: form.serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        alert('Product added to cart successfully.');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred.');
+                }
+            });
+        });
+    });
+</script>
